@@ -1,5 +1,6 @@
 import * as Notifications from 'expo-notifications'
 import * as Device from 'expo-device'
+import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 import { api } from './api'
 
@@ -41,7 +42,7 @@ export async function registerForPushNotifications(uid: string): Promise<string 
 
   // Get Expo push token
   const tokenData = await Notifications.getExpoPushTokenAsync({
-    projectId: 'chaintrace-farmer-app', // EAS project ID
+    projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })
   const token = tokenData.data
 
