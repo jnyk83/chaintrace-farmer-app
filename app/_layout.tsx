@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Slot, useRouter, useSegments } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { View, ActivityIndicator } from 'react-native'
+import { View, ActivityIndicator, Alert } from 'react-native'
 import {
   useFonts,
   Inter_400Regular,
@@ -47,10 +47,13 @@ export default function RootLayout() {
               const farmerProfile = await api.get<FarmerProfile>(`/farmers/${firebaseUser.uid}`)
               setFarmerProfile(farmerProfile)
             } catch {
+              // No farmer profile yet → will redirect to onboarding
               setFarmerProfile(null)
             }
           }
-        } catch {
+        } catch (err) {
+          console.warn('Auth profile fetch failed:', (err as Error).message)
+          Alert.alert('Connection Error', 'Failed to connect to server. Please check your internet connection and try again.')
           setUser(null)
           setFarmerProfile(null)
         }
@@ -98,12 +101,14 @@ export default function RootLayout() {
     } else if (user.role === 'farmer') {
       if (!farmerStatus) {
         // No farmer profile → go to onboarding
-        if (inAppGroup) router.replace('/onboarding')
+        router.replace('/onboarding')
       } else if (farmerStatus === 'pending_approval' || farmerStatus === 'rejected') {
         // Pending/rejected → go to pending screen
-        if (inAppGroup) router.replace('/pending')
+        router.replace('/pending')
+      } else if (farmerStatus === 'approved' && !inAppGroup) {
+        // Approved farmer on login/onboarding page → go to dashboard
+        router.replace('/(app)/dashboard')
       }
-      // approved → allow access to (app) group
     }
   }, [user, farmerStatus, authReady, fontsLoaded, segments])
 

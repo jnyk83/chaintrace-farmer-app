@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native'
 import { useRouter } from 'expo-router'
 import { login } from '@/lib/firebase'
 import Spinner from '@/components/ui/Spinner'
@@ -16,10 +16,15 @@ export default function LoginScreen() {
     setLoading(true)
     setError('')
     try {
-      await login(email.trim(), password)
+      const result = await login(email.trim(), password)
+      if (!result.user) {
+        setError('Login failed. Please try again.')
+      }
       // Auth state listener in _layout.tsx will handle navigation
     } catch (err) {
-      setError((err as Error).message.replace('Firebase: ', ''))
+      const msg = (err as Error).message.replace('Firebase: ', '')
+      setError(msg)
+      Alert.alert('Login Failed', msg)
     } finally {
       setLoading(false)
     }
