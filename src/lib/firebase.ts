@@ -1,16 +1,20 @@
 import { initializeApp } from 'firebase/app'
 import {
-  getAuth,
+  initializeAuth,
+  getReactNativePersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   type User,
 } from 'firebase/auth'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FIREBASE_CONFIG } from '@/constants/config'
 
 const app = initializeApp(FIREBASE_CONFIG)
-export const auth = getAuth(app)
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+})
 
 export async function login(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password)
