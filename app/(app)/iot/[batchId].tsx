@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { CartesianChart, Line, useChartPressState } from 'victory-native'
+import { Circle, useFont } from '@shopify/react-native-skia'
 import { api } from '@/lib/api'
 import Spinner from '@/components/ui/Spinner'
 import type { IoTTemplate, IoTReading } from '@/types'
@@ -210,26 +212,41 @@ export default function IoTDetailScreen() {
                 </Text>
               </View>
 
-              {/* Mini bar chart (last 28 readings = ~1 day sampled) */}
-              <View className="flex-row items-end gap-px mt-3 h-12">
-                {readings.slice(-28).map((r, i) => {
-                  const val = r[sensor.key] as number
-                  if (val === undefined) return null
-                  const range = sensor.threshold.high - sensor.threshold.low
-                  const pct = Math.max(0.05, Math.min(1, (val - sensor.threshold.low + range * 0.2) / (range * 1.4)))
-                  const barAlert = val < sensor.threshold.low || val > sensor.threshold.high
-                  return (
-                    <View
-                      key={i}
-                      className="flex-1 rounded-t"
-                      style={{
-                        height: `${pct * 100}%`,
-                        backgroundColor: barAlert ? COLORS.danger : color,
-                        opacity: barAlert ? 1 : 0.6,
-                      }}
+              {/* Victory Native Line Chart */}
+              <View style={{ height: 160, marginTop: 12 }}>
+                <CartesianChart
+                  data={readings.slice(-48).map((r, i) => ({
+                    x: i,
+                    y: (r[sensor.key] as number) ?? 0,
+                  }))}
+                  xKey="x"
+                  yKeys={['y']}
+                  axisOptions={{
+                    tickCount: { x: 4, y: 4 },
+                    formatXLabel: (v) => {
+                      const idx = Math.round(v as number)
+                      const offset = Math.max(0, readings.length - 48)
+                      const r = readings[offset + idx]
+                      if (!r) return ''
+                      const d = new Date(r.timestamp)
+                      return `${d.getHours()}:00`
+                    },
+                    formatYLabel: (v) => `${(v as number).toFixed(0)}`,
+                    labelColor: '#8b949e',
+                    lineColor: '#30363d',
+                  }}
+                  domainPadding={{ top: 20, bottom: 10 }}
+                >
+                  {({ points }) => (
+                    <Line
+                      points={points.y}
+                      color={color}
+                      strokeWidth={2}
+                      curveType="natural"
+                      animate={{ type: 'timing', duration: 500 }}
                     />
-                  )
-                })}
+                  )}
+                </CartesianChart>
               </View>
             </View>
           )

@@ -13,6 +13,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { onAuthChange } from '@/lib/firebase'
 import { api } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
+import { registerForPushNotifications, addNotificationResponseListener } from '@/lib/notifications'
 import type { AppUser, FarmerProfile } from '@/types'
 import '../global.css'
 
@@ -61,6 +62,28 @@ export default function RootLayout() {
       setAuthReady(true)
     })
     return unsubscribe
+  }, [])
+
+  // Register push notifications when user is logged in
+  useEffect(() => {
+    if (user?.uid) {
+      registerForPushNotifications(user.uid)
+    }
+  }, [user?.uid])
+
+  // Handle notification taps — navigate to relevant screen
+  useEffect(() => {
+    const sub = addNotificationResponseListener((response) => {
+      const data = response.notification.request.content.data
+      if (data?.batchId) {
+        router.push(`/(app)/batch/${data.batchId}`)
+      } else if (data?.screen === 'iot') {
+        router.push('/(app)/iot')
+      } else if (data?.screen === 'notifications') {
+        router.push('/(app)/notifications')
+      }
+    })
+    return () => sub.remove()
   }, [])
 
   // Navigation guard
