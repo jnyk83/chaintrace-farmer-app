@@ -20,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#07090f"
+        "backgroundColor": "#FFFFFF"
       },
       "package": "com.chaintrace.farmer",
       "edgeToEdgeEnabled": true,
