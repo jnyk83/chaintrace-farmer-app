@@ -14,8 +14,10 @@ export default function ProfileScreen() {
         { label: 'Company', value: farmerProfile.companyName },
         { label: 'SSM Number', value: farmerProfile.ssmNumber },
         { label: 'Farm Address', value: farmerProfile.farmAddress },
+        { label: 'GPS Coordinates', value: farmerProfile.gpsCoords || 'Not provided' },
         { label: 'Farm Size', value: farmerProfile.farmSize },
         { label: 'Products', value: farmerProfile.products.join(', ') },
+        { label: 'Documents', value: farmerProfile.documents?.length ? farmerProfile.documents.map((d) => d.name).join(', ') : 'None' },
         { label: 'Status', value: farmerProfile.status },
       ]
     : [
