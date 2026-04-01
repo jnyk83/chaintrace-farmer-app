@@ -34,7 +34,7 @@ export default function IoTDetailScreen() {
           setTemplate(tmpl[data[0].templateKey])
         }
       })
-      .catch(() => {})
+      .catch((err) => console.warn('IoT load error:', (err as Error).message))
       .finally(() => setLoading(false))
   }, [batchId])
 
@@ -48,7 +48,7 @@ export default function IoTDetailScreen() {
       if (data.length > 0 && data[0].templateKey && templates[data[0].templateKey]) {
         setTemplate(templates[data[0].templateKey])
       }
-    } catch { /* silent */ }
+    } catch (err) { console.warn('IoT simulate error:', (err as Error).message) }
     finally { setSimulating(null) }
   }
 

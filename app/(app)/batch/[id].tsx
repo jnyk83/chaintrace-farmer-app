@@ -13,11 +13,13 @@ export default function BatchDetailScreen() {
   const [batch, setBatch] = useState<Batch | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const [error, setError] = useState('')
+
   useEffect(() => {
     if (!id) return
     api.get<{ verified: boolean; batch: Batch }>(`/verify/${id}`)
       .then((res) => { if (res.batch) setBatch(res.batch) })
-      .catch(() => {})
+      .catch((err) => setError((err as Error).message || 'Failed to load batch'))
       .finally(() => setLoading(false))
   }, [id])
 
@@ -33,7 +35,7 @@ export default function BatchDetailScreen() {
     return (
       <SafeAreaView className="flex-1 bg-surface items-center justify-center px-6">
         <Text className="text-3xl mb-3">❌</Text>
-        <Text className="text-lg font-inter-700 text-text-primary">Batch Not Found</Text>
+        <Text className="text-lg font-inter-700 text-text-primary">{error || 'Batch Not Found'}</Text>
         <TouchableOpacity onPress={() => router.back()} className="mt-4">
           <Text className="text-sm font-inter-600 text-brand">Go Back</Text>
         </TouchableOpacity>
