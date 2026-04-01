@@ -24,7 +24,13 @@
       },
       "package": "com.chaintrace.farmer",
       "edgeToEdgeEnabled": true,
-      "permissions": ["POST_NOTIFICATIONS", "INTERNET", "ACCESS_NETWORK_STATE", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+      "permissions": [
+        "POST_NOTIFICATIONS",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -51,6 +57,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4f7cdfb4-d81c-4641-ac77-3180a9c80c9f"
+      }
+    },
+    "owner": "jnyk83"
   }
 }
