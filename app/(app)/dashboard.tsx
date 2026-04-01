@@ -87,6 +87,14 @@ export default function DashboardScreen() {
               <Text className="text-xs font-inter-500 text-text-secondary">Alerts</Text>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            onPress={() => router.push('/(app)/irrigation')}
+            className="rounded-xl border border-brand/25 bg-brand/5 py-3.5 flex-row items-center justify-center gap-2"
+            activeOpacity={0.7}
+          >
+            <Text className="text-lg">💧</Text>
+            <Text className="text-sm font-inter-500 text-brand">Irrigation Control</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Recent Batches */}

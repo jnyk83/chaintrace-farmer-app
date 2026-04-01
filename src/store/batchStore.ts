@@ -16,7 +16,7 @@ export const useBatchStore = create<BatchState>((set) => ({
   fetchBatches: async () => {
     set({ loading: true, error: null })
     try {
-      const data = await api.get<Batch[]>('/batches')
+      const data = await api.get<Batch[]>('/farmer/batches')
       set({ batches: data, loading: false })
     } catch (err) {
       set({ error: (err as Error).message, loading: false })

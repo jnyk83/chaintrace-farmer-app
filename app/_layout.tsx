@@ -74,8 +74,8 @@ export default function RootLayout() {
       if (inAppGroup) router.replace('/')
     } else if (user.role === 'farmer') {
       if (!farmerStatus) {
-        // No farmer profile → go to register (onboarding)
-        if (inAppGroup) router.replace('/register')
+        // No farmer profile → go to onboarding
+        if (inAppGroup) router.replace('/onboarding')
       } else if (farmerStatus === 'pending_approval' || farmerStatus === 'rejected') {
         // Pending/rejected → go to pending screen
         if (inAppGroup) router.replace('/pending')
