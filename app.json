@@ -24,7 +24,7 @@
       },
       "package": "com.chaintrace.farmer",
       "edgeToEdgeEnabled": true,
-      "permissions": ["POST_NOTIFICATIONS", "INTERNET", "ACCESS_NETWORK_STATE"]
+      "permissions": ["POST_NOTIFICATIONS", "INTERNET", "ACCESS_NETWORK_STATE", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,7 +39,15 @@
           "icon": "./assets/icon.png",
           "color": "#00c896"
         }
-      ]
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow ChainTrace to access your location to auto-detect your farm coordinates.",
+          "locationWhenInUsePermission": "Allow ChainTrace to access your location to auto-detect your farm coordinates."
+        }
+      ],
+      "expo-document-picker"
     ],
     "experiments": {
       "typedRoutes": true
