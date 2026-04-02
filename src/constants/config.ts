@@ -1,6 +1,8 @@
 // ChainTrace Farmer App Configuration
-// Always use production API — dev server (10.0.2.2) only works in Android emulator
-export const API_BASE_URL = 'https://chaintrace-mvp-production.up.railway.app/api'
+// Use localhost for web testing, production for APK
+export const API_BASE_URL = __DEV__
+  ? 'http://localhost:3000/api'
+  : 'https://chaintrace-mvp-production-fa62.up.railway.app/api'
 
 export const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyC1TUvw_sCa8kMDgm6aT8oEPbJmtEXaJ1g',

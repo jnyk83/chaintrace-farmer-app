@@ -32,6 +32,18 @@ export default function RootLayout() {
   const { user, farmerStatus, loading, setUser, setFarmerProfile, setLoading } = useAuthStore()
   const [authReady, setAuthReady] = useState(false)
 
+  // Safety timeout: if Firebase auth doesn't respond in 5s, show login
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (loading) {
+        console.warn('Firebase auth timeout — showing login')
+        setLoading(false)
+        setAuthReady(true)
+      }
+    }, 5000)
+    return () => clearTimeout(timeout)
+  }, [])
+
   // Listen to Firebase auth state
   useEffect(() => {
     const unsubscribe = onAuthChange(async (firebaseUser) => {
