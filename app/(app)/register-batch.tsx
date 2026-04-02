@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Platform } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { useAuthStore } from '@/store/authStore'
 import { useBatchStore } from '@/store/batchStore'
 import { api } from '@/lib/api'
@@ -17,6 +18,7 @@ export default function RegisterBatchScreen() {
   const [selectedProduct, setSelectedProduct] = useState('')
   const [quantity, setQuantity] = useState('')
   const [harvestDate, setHarvestDate] = useState(new Date().toISOString().slice(0, 10))
+  const [showDatePicker, setShowDatePicker] = useState(false)
   const [harvestPeriod, setHarvestPeriod] = useState(HARVEST_PERIODS[0])
 
   const products = farmerProfile?.products || []
@@ -116,13 +118,26 @@ export default function RegisterBatchScreen() {
 
         {/* Harvest Date */}
         <Text className="text-sm font-inter-500 text-text-secondary mb-2">Harvest Date</Text>
-        <TextInput
-          value={harvestDate}
-          onChangeText={setHarvestDate}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor="#475569"
-          className="rounded-xl border border-border bg-surface-light px-4 py-3.5 text-text-primary font-inter mb-5"
-        />
+        <TouchableOpacity
+          onPress={() => setShowDatePicker(true)}
+          className="rounded-xl border border-border bg-surface-light px-4 py-3.5 mb-5"
+        >
+          <Text className="text-text-primary font-inter">📅  {harvestDate}</Text>
+        </TouchableOpacity>
+        {showDatePicker && (
+          <DateTimePicker
+            value={new Date(harvestDate + 'T00:00:00')}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            maximumDate={new Date()}
+            onChange={(_event: any, selectedDate?: Date) => {
+              setShowDatePicker(Platform.OS === 'ios')
+              if (selectedDate) {
+                setHarvestDate(selectedDate.toISOString().slice(0, 10))
+              }
+            }}
+          />
+        )}
 
         {/* Harvest Period */}
         <Text className="text-sm font-inter-500 text-text-secondary mb-2">Harvest Period</Text>
