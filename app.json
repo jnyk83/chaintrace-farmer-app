@@ -2,7 +2,7 @@
   "expo": {
     "name": "ChainTrace Farmer",
     "slug": "chaintrace-farmer-app",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -23,6 +23,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.chaintrace.farmer",
+      "versionCode": 2,
       "edgeToEdgeEnabled": true,
       "permissions": [
         "POST_NOTIFICATIONS",
