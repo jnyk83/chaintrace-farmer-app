@@ -90,7 +90,7 @@ export default function OnboardingScreen() {
 
   const canNext = () => {
     if (step === 0) return name && icNumber && phone
-    if (step === 1) return companyName
+    if (step === 1) return companyName && ssmNumber
     if (step === 2) return farmAddress
     if (step === 3) return selectedProducts.length > 0
     return true
@@ -180,7 +180,7 @@ export default function OnboardingScreen() {
         {step === 1 && (
           <View className="pt-4">
             {renderInput('Company / Farm Name', companyName, setCompanyName, { placeholder: 'Ladang Ahmad Sdn Bhd' })}
-            {renderInput('SSM Registration Number', ssmNumber, setSsmNumber, { placeholder: 'Optional' })}
+            {renderInput('SSM Registration Number', ssmNumber, setSsmNumber, { placeholder: 'e.g. 202301012345' })}
             <Text className="text-sm font-inter-500 text-text-secondary mb-2">Business Type</Text>
             <View className="flex-row flex-wrap gap-2 mb-4">
               {BUSINESS_TYPES.map((t) => (

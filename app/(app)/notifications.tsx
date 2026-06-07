@@ -100,6 +100,7 @@ export default function NotificationsScreen() {
             <Text className="text-sm font-inter-600 text-brand">← Back</Text>
           </TouchableOpacity>
           <Text className="text-xl font-inter-700 text-text-primary">Notifications</Text>
+          <Text className="text-[10px] font-inter text-text-muted mt-0.5">Sample alerts · real-time push notifications are enabled on this device</Text>
           {unreadCount > 0 && (
             <Text className="text-xs font-inter text-text-muted mt-1">{unreadCount} unread</Text>
           )}
