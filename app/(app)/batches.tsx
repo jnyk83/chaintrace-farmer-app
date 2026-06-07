@@ -16,7 +16,7 @@ const TABS: { key: 'all' | BatchStatus; label: string }[] = [
 
 export default function BatchesScreen() {
   const router = useRouter()
-  const { batches, loading, fetchBatches } = useBatchStore()
+  const { batches, loading, error, fetchBatches } = useBatchStore()
   const [tab, setTab] = useState<'all' | BatchStatus>('all')
   const [search, setSearch] = useState('')
 
@@ -93,8 +93,10 @@ export default function BatchesScreen() {
           }
           ListEmptyComponent={
             <View className="py-16 items-center">
-              <Text className="text-3xl mb-2">📋</Text>
-              <Text className="text-sm font-inter text-text-muted">No batches found</Text>
+              <Text className="text-3xl mb-2">{error ? '⚠️' : '📋'}</Text>
+              <Text className="text-sm font-inter text-text-muted text-center px-8">
+                {error ? `Couldn't load batches: ${error}` : 'No batches found'}
+              </Text>
             </View>
           }
         />
