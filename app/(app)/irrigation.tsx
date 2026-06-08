@@ -55,7 +55,7 @@ export default function IrrigationScreen() {
     Alert.alert(
       newState ? 'Pump ON' : 'Pump OFF',
       newState
-        ? 'Intent recorded. In production, this will control the actual pump via ViTrox IoT gateway.'
+        ? 'Intent recorded. In production, this will control the actual pump via an IoT gateway.'
         : 'Intent recorded. Pump turned off.',
     )
   }
@@ -93,7 +93,7 @@ export default function IrrigationScreen() {
             </TouchableOpacity>
           </View>
           <Text className="text-[10px] font-inter text-text-muted mt-3">
-            MVP: Records intent only. V2 connects to ViTrox IoT gateway for actual hardware control.
+            MVP: Records intent only. V2 connects to an IoT gateway for actual hardware control.
           </Text>
         </View>
 
